@@ -1,0 +1,49 @@
+#mmm {
+    position: fixed;
+    bottom: 90px;
+    right: 30px;
+    background-color: rgb(236, 236, 236);
+    padding: 8px;
+}
+#tweet {
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    visibility: hidden;
+}
+ 
+#top-text{
+    color: aliceblue;
+}
+
+#description {
+    margin-top: 100px;
+}
+
+#tweet-pict{
+    width: 10%;
+    height: auto;
+}
+
+#result-text {
+    display: none;
+    color: aliceblue;
+    margin-bottom: 0px;
+}
+
+.card {
+    width:100% ;
+}
+
+.fa-chevron-up {
+    font-size: 18px;
+}
+ 
+.pageTop-chevron{
+    color:lightseagreen;
+    padding:8px;
+}
+ 
+#mmm a {
+  color: black;
+}

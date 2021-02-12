@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-146525339-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-146525339-2');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="author" content="Akiyuri">
+<meta name="yggdore-confirmation" content="K8MAz5Ijp8oBRvV7MzxV6GaI8sWlSndW" />
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<title>ISLAND TV SEARCH（非公式）</title>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/bootstrap.bundle.min.js"></script>
+<script src="./js/dataGet.js"></script>
+<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="ISLAND TV SUPER SEARCH（非公式）" />
+<meta property="og:image" content="https://islandtvsearch.herokuapp.com/ogp.jpg" />
+<script>
+(function() {
+    var param = location.search;
+        var arg = new Object;
+        var pair = param.substring(1).split('&');
+        for (var i = 0; pair[i]; i++) {
+            var kv = pair[i].split('=');
+            arg[kv[0]] = kv[1];
+        }
+        var title = document.title + " - 「" + decodeURI(arg["name"]) + "」の検索結果";;
+        var url = location.href;
+
+        document.title = title;
+        document.write('<meta name="twitter:title" content="' + title + '" />');
+        document.write('<meta property="og:description" content="' + title.split('- ')[1] + '" />');
+        document.write('<meta property="og:url" content="' + url + '" />');
+        document.write('<meta property="og:site_name" content="IDLAND TV SUPER SEARCH" />');
+})();
+</script>
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/search.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
+        <a href="/" id="top-text">ISLAND TV SUPER SEARCH（非公式）</a>
+        <p id="result-text"></p>
+    </nav>
+    <div class="col-lg-5 offset-lg-1 bs-component form-group" id="description">
+        <p><a href="https://j-island.net" target="_blank">ISLAND TV</a>の出演者名、タイトルから動画を検索できます。
+            <a class="text-success" data-toggle="modal" data-target="#myModal">
+                詳細説明
+            </a></p>
+        <p>検索ワード<input type="text" id="name" value="" class="form-control"></p>
+        <div class="col-lg-10 offset-lg-1">
+            グループの動画を含めるか
+            <label class="text-danger">※メンバーのフルネームのみを入力した時に有効になります</label>
+            <p><label class="form-check-label"><input type="radio" name="group" id="yes-group" value="1"
+                        class="form-check-input">含める</label><br>
+                <label class="form-check-label"><input type="radio" name="group" id="no-group" value="0"
+                        class="form-check-input" checked>含めない</label></p>
+        </div>
+        <input type="submit" method="GET" onclick="searchButtonPush()" value="検索" class="btn btn-primary" id="search"> 
+    </div>
+    <div class="col-lg-10 offset-lg-1">
+        <ul id="result" class="list-group"><=ここに検索結果が表示されます=></ul>
+    </div>
+    <div id="loading" class="col-lg-10 offset-lg-1" style="visibility: hidden;">
+        <p>Now loading...</p>
+        <img src="img/loading.gif" alt="loading">
+    </div>
+    <div id="author" class="col-lg-10 offset-lg-1">
+        <p>Created by Akiyuri 2019. <a href="https://twitter.com/akiyuri_stlover">Twitter</a></p>
+    </div>
+    <div id="mmm" >
+        <a href="#">
+          <i class="fas fa-chevron-up pageTop-chevron">▲</i>
+        </a>
+      </div>
+    <div id="tweet" class="btn-group" role="group">
+    </div>
+    <!-- モーダルの設定 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ITSSの使い方</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong class="text-success">基本検索</strong></p>
+                    <p>ISLAND TVの出演者名や動画タイトル（シリーズ名）を入力して、「グループの動画を含めるか」のラジオボタン「含めない」を選択してください。複数の単語をスペース区切りで入力すると動画が絞り込まれて表示されます。
+                    </p>
+                    <p><strong class="text-success">グループ検索</strong></p>
+                    <p>ISLAND TVの出演者でグループ（ISLAND TV公式+Jr.SP、少年忍者、関西ジャニーズJr.)に所属しているタレントのフルネームを、姓名の間にスペースを入れすに公式表記通り（例：○髙地優吾、×高地優吾）入力して、「グループの動画を含めるか」のラジオボタン「含める」を選択してください。複数の単語を入力すると無効になりますのでご注意ください。
+                    </p>
+                    <p><strong class="text-success">OR検索</strong></p>
+                    <p>「or 」を先頭に、ISLAND TVの出演者名や動画タイトル（シリーズ名）を入力して（例、「or 髙地優吾 ラウール 吉澤閑也」)、「グループの動画を含めるか」のラジオボタン「含めない」を選択してください。複数の単語をスペース区切りで入力すると、いずれかの検索ワードに合致した動画が全て表示されます。複数の推しやグループの名前を入力することで、ISLAND TV公式のフォロー機能を生かしたタイムラインの代用としてもご活用いただけると思います。
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+                </div><!-- /.modal-footer -->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script>
+        var param = location.search;
+        if (param) {
+            var arg = new Object;
+            var pair = param.substring(1).split('&');
+            for (var i = 0; pair[i]; i++) {
+                var kv = pair[i].split('=');
+                arg[kv[0]] = kv[1];
+            }
+            document.getElementById("name").value = decodeURI(arg["name"]);
+            if (arg["groupFlg"] == 1) {
+                document.getElementById("yes-group").checked = true;
+            }
+            search();
+        }
+
+        $('#name').keypress(function (e) {
+            if (e.which == 13) {
+                searchButtonPush();
+                $("#name").blur();
+                return false;
+            }
+        })
+        //page topボタン
+        $(function () {
+            var pagetop = $('#mmm');
+            pagetop.hide();
+
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 300) {
+                    //---- 画面を300pxスクロールしたらボタンを表示
+                    pagetop.fadeIn();
+                } else {
+                    //---- 画面が300pxより上ならボタンを表示しない
+                    pagetop.fadeOut();
+                }
+            });
+            // ボタンをクリックしたら、スクロールして上に戻る
+            pagetop.click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 1000);
+                return false;
+            });
+        });
+
+        document.getElementById("loading").style.visibility = "hidden";
+        $("#search").removeClass("disabled");
+    </script>
+</body>
+</html>
